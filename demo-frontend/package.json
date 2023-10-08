@@ -1,0 +1,26 @@
+{
+  "name": "day-day-account-book-frontend",
+  "version": "0.1.0",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview --port 3888"
+  },
+  "dependencies": {
+    "@antv/f2": "^3.8.10-beta.1",
+    "axios": "^0.23.0",
+    "dayjs": "^1.10.7",
+    "lib-flexible": "^0.3.2",
+    "postcss-pxtorem": "^6.0.0",
+    "vant": "^3.2.5",
+    "vue": "^3.2.16",
+    "vue-router": "4"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^1.9.3",
+    "less": "^4.1.2",
+    "vite": "^2.6.4",
+    "vite-plugin-style-import": "^1.2.1"
+  }
+}
