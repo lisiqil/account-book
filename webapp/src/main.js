@@ -15,30 +15,34 @@ import {
   Grid,
   GridItem,
   Divider,
-  DatetimePicker,
   Cell,
   CellGroup,
   Tag,
   List,
   PullRefresh,
   NumberKeyboard,
-  // Toast,
+  Toast,
   Empty,
   SwipeCell,
   Progress,
   Image as VanImage,
   Loading,
-  // Dialog,
-  // Notify,
+  Dialog,
+  Notify,
   ActionSheet,
   Uploader,
   Lazyload,
+  Slider,
+  DatePicker as DatetimePicker,
 } from "vant";
+import "vant/lib/index.css";
 import router from "./router";
 
 const app = createApp(App);
 app
   .use(Button)
+  .use(Slider)
+  .use(DatetimePicker)
   .use(Icon)
   .use(NavBar)
   .use(Tabbar)
@@ -51,25 +55,25 @@ app
   .use(Grid)
   .use(GridItem)
   .use(Divider)
-  .use(DatetimePicker)
   .use(Cell)
   .use(CellGroup)
   .use(Tag)
   .use(List)
   .use(PullRefresh)
   .use(NumberKeyboard)
-  // .use(Toast)
+  .use(Toast)
   .use(Empty)
   .use(SwipeCell)
   .use(Progress)
   .use(VanImage)
   .use(Loading)
-  // .use(Dialog)
-  // .use(Notify)
+  .use(Dialog)
+  .use(Notify)
   .use(ActionSheet)
   .use(Uploader)
   .use(Lazyload, {
     lazyComponent: true,
   });
+
 app.use(router);
 app.mount("#app");
