@@ -1,4 +1,3 @@
-// import HelloComponent from "@/views/hello/HelloComponent.vue";
 import { createRouter, createWebHashHistory } from "vue-router";
 
 const routes = [
