@@ -18,20 +18,37 @@ module.exports = (appInfo) => {
   // add your middleware config here
   config.middleware = ["robot"];
 
-  config.view = {
-    defaultViewEngine: "nunjucks",
-    mapping: {
-      ".tpl": "nunjucks",
-    },
-  };
-
-  config.news = {
-    pageSize: 5,
-    serverUrl: "https://hacker-news.firebaseio.com/v0",
-  };
-
   config.robot = {
     ua: [/Baiduspider/i],
+  };
+
+  // 单个数据库信息配置
+  config.mysql = {
+    client: {
+      host: "47.118.54.138",
+      port: "3306",
+      user: "root",
+      password: "Lsq!1995",
+      database: "pocket_book",
+    },
+    // 是否加载到 app 上，默认开启
+    app: true,
+    // 是否加载到 agent 上，默认关闭
+    agent: false,
+  };
+
+  // token配置
+  config.jwt = {
+    secret: "nisqyPocketBook20231012",
+  };
+
+  // 设置跨域白名单，允许全部
+  config.security = {
+    csrf: {
+      enable: false,
+      ignoreJSON: true,
+    },
+    domainWhiteList: ["*"],
   };
 
   // add your user config here

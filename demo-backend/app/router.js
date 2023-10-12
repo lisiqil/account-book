@@ -11,6 +11,7 @@ module.exports = (app) => {
   router.get("/user/get", _jwt, controller.user.get_user_info); // 获取用户信息
   router.put("/user/edit", _jwt, controller.user.edit); // 编辑用户信息
   router.put("/user/update_password", _jwt, controller.user.updatePassword); //  更新密码
+
   router.post("/bill/add", _jwt, controller.bill.add); // 增加账单
   router.get("/bill/list", _jwt, controller.bill.list); // 获取账单列表
   router.get("/bill/detail", _jwt, controller.bill.detail); // 获取账单详情
