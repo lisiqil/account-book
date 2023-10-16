@@ -1,7 +1,8 @@
 <template>
-  <div class="hellotitle">hello page</div>
+  <div>Billitem.vue component</div>
 </template>
-<script></script>
+
+<script setup></script>
 
 <style lang="less" scoped>
 .hellotitle {

@@ -1,11 +1,26 @@
 <template>
+  <Tabbar v-show="showTabbar" />
   <router-view></router-view>
 </template>
 
-<script>
-export default {
-  name: "App",
-};
+<script setup>
+import Tabbar from "./components/Tabbar.vue";
+import { ref, watchEffect } from "vue";
+import { useRoute } from "vue-router";
+
+const showTabbar = ref(true);
+const route = useRoute();
+
+// 不需要展示标签栏的路由
+const noShowTabbarRouteList = [
+  "/login",
+  "/detail",
+  "/update-password",
+  "/upload-avatar",
+];
+watchEffect(() => {
+  showTabbar.value = !noShowTabbarRouteList.includes(route.path);
+});
 </script>
 
 <style>

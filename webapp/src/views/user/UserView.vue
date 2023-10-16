@@ -1,5 +1,5 @@
 <template>
-  <div class="hellotitle">about page</div>
+  <div class="hellotitle">UserView page</div>
 </template>
 <script></script>
 

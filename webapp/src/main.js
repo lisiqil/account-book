@@ -33,7 +33,7 @@ import {
   Uploader,
   Lazyload,
   Slider,
-  DatePicker as DatetimePicker,
+  DatePicker,
 } from "vant";
 import "vant/lib/index.css";
 import router from "./router";
@@ -42,7 +42,7 @@ const app = createApp(App);
 app
   .use(Button)
   .use(Slider)
-  .use(DatetimePicker)
+  .use(DatePicker)
   .use(Icon)
   .use(NavBar)
   .use(Tabbar)

@@ -1,12 +1,22 @@
 <script lang="js">
 import { ref } from 'vue';
+import { login } from '@/api/user'
+import router from "@/router";
 
 export default {
   setup() {
     const username = ref('');
     const password = ref('');
-    const onSubmit = (values) => {
-      console.log('submit', values);
+
+    const onSubmit = async (values) => {
+      let token = ''
+      const res = await login(values)
+      const { code, data } = res
+      if(code == 200) {
+        token = data.token
+        localStorage.setItem("token", token)
+        router.push({ path: "/" });
+      }
     };
 
     return {
@@ -55,7 +65,7 @@ export default {
 }
 
 .form-loginview {
-  padding-top: 200px;
+  padding-top: 220px;
   opacity: 0.8;
 }
 </style>

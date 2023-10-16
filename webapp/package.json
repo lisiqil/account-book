@@ -11,6 +11,7 @@
     "@antv/f2": "^4.0.48",
     "axios": "^1.5.1",
     "core-js": "^3.8.3",
+    "dayjs": "^1.11.10",
     "lib-flexible": "^0.3.2",
     "postcss-pxtorem": "^6.0.0",
     "vant": "^4.7.1",
