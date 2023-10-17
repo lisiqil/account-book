@@ -1,22 +1,22 @@
 <script lang="js">
 import { ref } from 'vue';
-import { login } from '@/api/user'
+import { register } from '@/api/user'
 import router from "@/router";
-import { showFailToast } from "vant";
+import { showFailToast, showSuccessToast } from "vant";
 
 export default {
   setup() {
     const username = ref('');
     const password = ref('');
+    const inviteCode = ref('');
 
     const onSubmit = async (values) => {
-      let token = ''
-      const res = await login(values)
+      let token = '';
+      const res = await register(values)
       const { code, data, message } = res
       if(code == 200) {
-        token = data.token
-        localStorage.setItem("token", token)
-        router.push({ path: "/" });
+        showSuccessToast(message)
+        router.push({ path: "/login" });
       } else {
         showFailToast(message)
       }
@@ -25,6 +25,7 @@ export default {
     return {
       username,
       password,
+      inviteCode,
       onSubmit,
     };
   },
@@ -34,7 +35,8 @@ export default {
 <template>
   <div class="wrapper">
     <van-form @submit="onSubmit" class="form-loginview">
-      <h1>欢迎，请登录</h1>
+      <h1>您好，请注册</h1>
+
       <van-cell-group inset>
         <van-field
           v-model="username"
@@ -43,6 +45,7 @@ export default {
           placeholder="用户名"
           :rules="[{ required: true, message: '请填写用户名' }]"
         />
+
         <van-field
           v-model="password"
           type="password"
@@ -51,18 +54,25 @@ export default {
           placeholder="密码"
           :rules="[{ required: true, message: '请填写密码' }]"
         />
+
+        <van-field
+          v-model="inviteCode"
+          type="inviteCode"
+          name="inviteCode"
+          label="注册码"
+          placeholder="注册码"
+          :rules="[{ required: true, message: '请填写注册码' }]"
+        />
       </van-cell-group>
 
       <div style="margin: 16px">
         <van-button round block type="primary" native-type="submit">
-          登录
+          注册
         </van-button>
       </div>
 
       <div style="margin: 16px">
-        <van-button round block type="default" to="/register">
-          去注册
-        </van-button>
+        <van-button round block type="success" to="/login"> 去登录 </van-button>
       </div>
     </van-form>
   </div>

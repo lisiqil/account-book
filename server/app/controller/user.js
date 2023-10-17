@@ -36,9 +36,19 @@ class UserController extends BaseController {
 
   // 注册
   async register() {
-    const { ctx } = this;
-    const { username, password, avatar = default_avatar } = ctx.request.body;
+    const { ctx, app } = this;
+    const {
+      username,
+      password,
+      avatar = default_avatar,
+      inviteCode,
+    } = ctx.request.body;
+    const rightCode = app.config.inviteCode;
 
+    if (inviteCode !== rightCode) {
+      this.paramsError("注册码错误");
+      return;
+    }
     // 账号密码为空
     if (!username || !password) {
       this.paramsError("账号/密码不能为空");

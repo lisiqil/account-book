@@ -6,7 +6,11 @@ const routes = [
     path: "/login",
     component: () => import("@/views/login/LoginView.vue"),
   },
-
+  // 注册页
+  {
+    path: "/register",
+    component: () => import("@/views/register/RegisterView.vue"),
+  },
   // 定义路由配置
   {
     path: "/",

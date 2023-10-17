@@ -1,5 +1,5 @@
 <script setup>
-import { showSuccessToast, Notify } from "vant";
+import { showSuccessToast } from "vant";
 import { ref, reactive, watchEffect, onMounted } from "vue";
 import { useRouter } from "vue-router";
 
@@ -27,16 +27,6 @@ onMounted(async () => {
 
 const initUserData = async () => {
   const { data } = await getUserInfo();
-  // const { data } = {
-  //   code: 200,
-  //   message: "获取用户信息成功",
-  //   data: {
-  //     username: "test",
-  //     avatar:
-  //       "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211208224029.jpeg",
-  //     signature: "123",
-  //   },
-  // };
   userinfo.username = data.username;
   userinfo.signature = data.signature;
   userinfo.avatar = data.avatar;
@@ -59,20 +49,8 @@ const editSignature = async (action) => {
     const { code, data } = await editUserInfo({
       signature: userinfo.newSignature,
     });
-    // const { code, data } = {
-    //   code: 200,
-    //   message: "编辑用户信息成功",
-    //   data: {
-    //     id: 2,
-    //     username: "test",
-    //     signature: "222",
-    //     avatar:
-    //       "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211208224029.jpeg",
-    //   },
-    // };
-
     if (code === 200) {
-      // showSuccessToast("修改成功");
+      showSuccessToast("修改成功");
       userinfo.signature = data.signature;
     }
   } catch (error) {
@@ -90,7 +68,14 @@ const clickEditPassword = () => {
   });
 };
 
-//
+// 退出登录
+const loginOut = () => {
+  localStorage.removeItem("token");
+  showSuccessToast({ message: "退出成功", duration: 1000 });
+  setTimeout(() => {
+    router.push("/login");
+  }, 1000);
+};
 </script>
 
 <template>

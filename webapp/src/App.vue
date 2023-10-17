@@ -14,6 +14,7 @@ const route = useRoute();
 // 不需要展示标签栏的路由
 const noShowTabbarRouteList = [
   "/login",
+  "/register",
   "/detail",
   "/update-password",
   "/upload-avatar",

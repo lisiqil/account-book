@@ -54,6 +54,7 @@ module.exports = (appInfo) => {
   // add your user config here
   const userConfig = {
     myAppName: "egg server",
+    inviteCode: "woshiruciyingjun",
   };
 
   return {
