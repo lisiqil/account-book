@@ -14,7 +14,7 @@ const $http = axios.create({
 $http.interceptors.request.use((config) => {
   config.headers = config.headers || {};
   config.headers = {
-    token: localStorage.getItem("token") || "",
+    Authorization: localStorage.getItem("token") || "",
   };
   return config;
 });

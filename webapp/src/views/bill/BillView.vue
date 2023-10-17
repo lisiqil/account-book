@@ -1,3 +1,236 @@
+<script setup>
+import { ref, reactive } from "vue";
+import BillTypes from "./components/BillTypes.vue";
+import BillItem from "./components/BillItem.vue";
+import AddBill from "./components/AddBill.vue";
+import PopDate from "@/components/PopDate.vue";
+import dayjs from "dayjs";
+
+// 对接接口 查询账单列表
+import { getBillList } from "@/api/bill";
+
+const types = [
+  {
+    id: 1,
+    name: "餐饮",
+    type: 1,
+  },
+  {
+    id: 2,
+    name: "交通",
+    type: 1,
+  },
+  {
+    id: 3,
+    name: "娱乐",
+    type: 1,
+  },
+  {
+    id: 4,
+    name: "购物",
+    type: 1,
+  },
+  {
+    id: 5,
+    name: "其他",
+    type: 1,
+  },
+  {
+    id: 6,
+    name: "工资",
+    type: 2,
+  },
+  {
+    id: 7,
+    name: "奖金",
+    type: 2,
+  },
+  {
+    id: 8,
+    name: "转账",
+    type: 2,
+  },
+  {
+    id: 9,
+    name: "理财",
+    type: 2,
+  },
+  {
+    id: 10,
+    name: "其他",
+    type: 2,
+  },
+];
+
+// const reqGetBillList = () => {
+//   console.log("reqGetBillList ====================== ");
+// };
+
+const refPopDate = ref();
+const totalExpenses = ref(0); // 总支出
+const totalIncome = ref(0); // 总收入
+const totalPage = ref(0); // 总页数
+const showType = ref(false); // 选择账单类型弹窗
+const showAddPop = ref(false); // 添加账单弹窗
+// 已选账单类型
+const selectedType = reactive({
+  id: 0,
+  name: "全部类型",
+});
+const listLoading = ref(false); // 账单列表加载状态
+const listFinished = ref(false); // 账单列表是否已加载完毕
+const listRefreshing = ref(false); // 账单列表是否正在刷新
+
+const selectedDate = ref(new Date());
+let billList = ref([]);
+const currentPage = ref(1);
+// 每次打开都重新渲染该组件，addBill
+let addBillKey = 1;
+
+// 账单类型改变
+const handleChangeType = (typeObj) => {
+  showType.value = false;
+  Object.assign(selectedType, typeObj);
+  initParam();
+  reqGetBillList();
+};
+
+// 账单时间改变
+const handelChangeDate = (date) => {
+  if (refPopDate.value) refPopDate.value.showDate = false;
+  selectedDate.value = new Date(date.selectedValues);
+  initParam();
+  reqGetBillList();
+};
+
+// 重置数据
+const initParam = () => {
+  listLoading.value = true;
+  listFinished.value = false;
+  billList.value = [];
+  totalPage.value = 0;
+  currentPage.value = 1;
+};
+
+// 添加账单成功回调
+const handleBillAdded = () => {
+  initParam();
+  reqGetBillList();
+};
+
+// 获取账单列表
+const reqGetBillList = async () => {
+  // 如果是下拉刷新，则重置列表
+  const params = {
+    date: Number(selectedDate.value),
+    page: currentPage.value,
+    page_size: 5,
+    type_id: selectedType.id,
+  };
+  try {
+    const { code, data } = await getBillList(params);
+    // const { code, data } = {
+    //   code: 200,
+    //   message: "请求成功",
+    //   data: {
+    //     total_expense: 1323,
+    //     total_income: 1000,
+    //     total_page: 1,
+    //     list: [
+    //       {
+    //         date: "2023-10-08",
+    //         bills: [
+    //           {
+    //             id: 453,
+    //             pay_type: 1,
+    //             amount: "100",
+    //             date: "1696752153073",
+    //             type_id: 5,
+    //             type_name: "其他",
+    //             remark: "",
+    //           },
+    //           {
+    //             id: 452,
+    //             pay_type: 2,
+    //             amount: "1000",
+    //             date: "1696751562755",
+    //             type_id: 6,
+    //             type_name: "工资",
+    //             remark: "",
+    //           },
+    //         ],
+    //       },
+    //       {
+    //         date: "2023-10-07",
+    //         bills: [
+    //           {
+    //             id: 450,
+    //             pay_type: 1,
+    //             amount: "123",
+    //             date: "1696666139855",
+    //             type_id: 3,
+    //             type_name: "娱乐",
+    //             remark: "",
+    //           },
+    //           {
+    //             id: 455,
+    //             pay_type: 1,
+    //             amount: "500",
+    //             date: "1696608000000",
+    //             type_id: 3,
+    //             type_name: "娱乐",
+    //             remark: "",
+    //           },
+    //         ],
+    //       },
+    //       {
+    //         date: "2023-10-06",
+    //         bills: [
+    //           {
+    //             id: 451,
+    //             pay_type: 1,
+    //             amount: "600",
+    //             date: "1696521600000",
+    //             type_id: 1,
+    //             type_name: "餐饮",
+    //             remark: "",
+    //           },
+    //         ],
+    //       },
+    //     ],
+    //   },
+    // };
+    if (code === 200) {
+      billList.value = billList.value.concat(data.list);
+      totalExpenses.value = data?.total_expense || 0;
+      totalIncome.value = data?.total_income || 0;
+      totalPage.value = data?.total_page || 0;
+    }
+  } catch (error) {
+    console.log(error);
+  } finally {
+    if (currentPage.value < totalPage.value) {
+      currentPage.value += 1;
+    } else {
+      listFinished.value = true;
+    }
+    listLoading.value = false;
+  }
+};
+
+// 下拉刷新
+const onRefresh = async () => {
+  initParam();
+  await reqGetBillList();
+  listRefreshing.value = false;
+};
+
+// 列表 load 事件
+const onLoad = async () => {
+  await reqGetBillList();
+};
+</script>
+
 <template>
   <!-- 主体 -->
   <div class="bill-header">
@@ -83,166 +316,6 @@
     @on-change="handelChangeDate"
   />
 </template>
-
-<script setup>
-import { ref, reactive } from "vue";
-import BillTypes from "./components/BillTypes.vue";
-import BillItem from "./components/BillItem.vue";
-import AddBill from "./components/AddBill.vue";
-import PopDate from "@/components/PopDate.vue";
-
-import dayjs from "dayjs";
-
-// const reqGetBillList = () => {
-//   console.log("reqGetBillList ====================== ");
-// };
-
-const types = [
-  {
-    id: 1,
-    name: "餐饮",
-    type: 1,
-  },
-  {
-    id: 2,
-    name: "交通",
-    type: 1,
-  },
-  {
-    id: 3,
-    name: "娱乐",
-    type: 1,
-  },
-  {
-    id: 4,
-    name: "购物",
-    type: 1,
-  },
-  {
-    id: 5,
-    name: "其他",
-    type: 1,
-  },
-  {
-    id: 6,
-    name: "工资",
-    type: 2,
-  },
-  {
-    id: 7,
-    name: "奖金",
-    type: 2,
-  },
-  {
-    id: 8,
-    name: "转账",
-    type: 2,
-  },
-  {
-    id: 9,
-    name: "理财",
-    type: 2,
-  },
-  {
-    id: 10,
-    name: "其他",
-    type: 2,
-  },
-];
-
-const refPopDate = ref();
-const totalExpenses = ref(0); // 总支出
-const totalIncome = ref(0); // 总收入
-const totalPage = ref(0); // 总页数
-const showType = ref(false); // 选择账单类型弹窗
-const showAddPop = ref(false); // 添加账单弹窗
-// 已选账单类型
-const selectedType = reactive({
-  id: 0,
-  name: "全部类型",
-});
-const listLoading = ref(false); // 账单列表加载状态
-const listFinished = ref(false); // 账单列表是否已加载完毕
-const listRefreshing = ref(false); // 账单列表是否正在刷新
-
-const selectedDate = ref(new Date());
-let billList = ref([]);
-const currentPage = ref(1);
-// 每次打开都重新渲染该组件，addBill
-let addBillKey = 1;
-
-// 账单类型改变
-const handleChangeType = (typeObj) => {
-  showType.value = false;
-  Object.assign(selectedType, typeObj);
-  initParam();
-  reqGetBillList();
-};
-
-// 账单时间改变
-const handelChangeDate = (date) => {
-  if (refPopDate.value) refPopDate.value.showDate = false;
-  selectedDate.value = date;
-  initParam();
-  reqGetBillList();
-};
-
-// 重置数据
-const initParam = () => {
-  listLoading.value = true;
-  listFinished.value = false;
-  billList.value = [];
-  totalPage.value = 0;
-  currentPage.value = 1;
-};
-
-// 添加账单成功回调
-const handleBillAdded = () => {
-  initParam();
-  reqGetBillList();
-};
-
-// 获取账单列表
-const reqGetBillList = async () => {
-  // 如果是下拉刷新，则重置列表
-  const params = {
-    date: Number(selectedDate.value),
-    page: currentPage.value,
-    page_size: 5,
-    type_id: selectedType.id,
-  };
-  try {
-    const { code, data } = await getBillList(params);
-    if (code === 200) {
-      billList.value = billList.value.concat(data.list);
-      totalExpenses.value = data?.total_expense || 0;
-      totalIncome.value = data?.total_income || 0;
-      totalPage.value = data?.total_page || 0;
-    }
-  } catch (error) {
-    console.log(error);
-  } finally {
-    if (currentPage.value < totalPage.value) {
-      currentPage.value += 1;
-    } else {
-      listFinished.value = true;
-    }
-    listLoading.value = false;
-  }
-};
-
-// 下拉刷新
-const onRefresh = async () => {
-  initParam();
-  await reqGetBillList();
-  listRefreshing.value = false;
-};
-
-// 列表 load 事件
-const onLoad = async () => {
-  await reqGetBillList();
-};
-</script>
 
 <style lang="less" scoped>
 .bill-header {

@@ -1,0 +1,189 @@
+<script setup>
+import { ref, reactive } from "vue";
+import { useRouter } from "vue-router";
+import Header from "@/components/Header.vue";
+import { showSuccessToast } from "vant";
+
+// 对接接口
+import { editUserInfo } from "@/api/user";
+
+const router = useRouter();
+const avatarList = [
+  {
+    name: "dog1",
+    url: "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211208224002.jpeg",
+  },
+  {
+    name: "dog2",
+    url: "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211208224029.jpeg",
+  },
+  {
+    name: "dog3",
+    url: "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211208224039.jpeg",
+  },
+  {
+    name: "dog4",
+    url: "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211208224054.jpeg",
+  },
+  {
+    name: "dog5",
+    url: "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211208224102.jpeg",
+  },
+  {
+    name: "dog6",
+    url: "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211208224107.jpeg",
+  },
+  {
+    name: "dog7",
+    url: "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211208224113.jpeg",
+  },
+  {
+    name: "dog8",
+    url: "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211208224148.jpeg",
+  },
+  {
+    name: "dog9",
+    url: "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211208224153.jpeg",
+  },
+  {
+    name: "dog10",
+    url: "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211208224157.jpeg",
+  },
+  {
+    name: "dog11",
+    url: "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211208224344.png",
+  },
+  {
+    name: "dog12",
+    url: "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211209010823.jpeg",
+  },
+  {
+    name: "cat1",
+    url: "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211209231336.jpeg",
+  },
+  {
+    name: "cat2",
+    url: "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211209231434.jpeg",
+  },
+  {
+    name: "cat3",
+    url: "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211209231440.jpeg",
+  },
+  {
+    name: "cat4",
+    url: "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211209231444.jpeg",
+  },
+  {
+    name: "cat5",
+    url: "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211209231450.jpeg",
+  },
+  {
+    name: "cat6",
+    url: "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211209231455.jpeg",
+  },
+  {
+    name: "cat7",
+    url: "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211209231459.jpeg",
+  },
+  {
+    name: "cat8",
+    url: "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211209231504.jpeg",
+  },
+  {
+    name: "cat9",
+    url: "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211209231508.jpeg",
+  },
+];
+
+const showDialog = ref(false); // 显示确认框
+const selectedAvatar = ref(""); // 选中的头像
+
+const clickImg = (url) => {
+  selectedAvatar.value = url;
+  showDialog.value = true;
+};
+
+// 更换头像
+const reqEditUserInfo = async () => {
+  try {
+    const { code } = await editUserInfo({ avatar: selectedAvatar.value });
+    if (code === 200) {
+      showSuccessToast("头像更换成功");
+      setTimeout(() => {
+        router.push("/user");
+      }, 1000);
+    }
+  } catch (error) {
+    console.log("error: ", error);
+  } finally {
+    showDialog.value = false;
+  }
+};
+</script>
+
+<template>
+  <Header title="更换头像" />
+  <div class="main">
+    <div class="items">
+      <div v-for="value in avatarList" :key="value.name">
+        <van-image
+          style="border: 2px solid #fff"
+          round
+          fit="contain"
+          width="80"
+          height="80"
+          :src="value.url"
+          alt="dog"
+          lazy-load
+          @click="clickImg(value.url)"
+        >
+          <template v-slot:loading>
+            <van-loading type="spinner" size="20" />
+          </template>
+        </van-image>
+      </div>
+    </div>
+    <van-dialog
+      v-model:show="showDialog"
+      title="确认更换该头像？"
+      show-cancel-button
+      round-button
+      @confirm="reqEditUserInfo"
+    >
+      <div class="dig-content">
+        <van-image
+          style="border: 2px solid #fff"
+          round
+          fit="contain"
+          width="80"
+          height="80"
+          :src="selectedAvatar"
+          alt="dog"
+          lazy-load
+        />
+      </div>
+    </van-dialog>
+  </div>
+</template>
+
+<style lang="less" scoped>
+.main {
+  height: 100%;
+  background: url("@/assets/user.jpeg") no-repeat center center fixed;
+  background-size: cover;
+  .items {
+    height: 80%;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    place-items: center center;
+    gap: 20px 10px;
+  }
+}
+.dig-content {
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>

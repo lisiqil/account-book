@@ -23,7 +23,27 @@ const routes = [
     component: () => import("@/views/user/UserView.vue"),
     meta: { checkAuth: true },
   },
-
+  // 账单详情
+  {
+    path: "/detail",
+    name: "detail",
+    component: () => import("@/views/bill/components/BillDetail.vue"),
+    meta: { checkAuth: true },
+  },
+  // 修改头像
+  {
+    path: "/upload-avatar",
+    name: "upload-avatar",
+    component: () => import("@/views/user/components/UploadAvatar.vue"),
+    meta: { checkAuth: true },
+  },
+  // 修改密码
+  {
+    path: "/update-password",
+    name: "update-password",
+    component: () => import("@/views/user/components/UpdatePassword.vue"),
+    meta: { checkAuth: true },
+  },
   // 未定义路由重定向
   {
     path: "/:pathMatch(.*)*",

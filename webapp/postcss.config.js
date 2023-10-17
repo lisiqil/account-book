@@ -20,4 +20,24 @@ module.exports = {
       selectorBlackList: [".norem"], // 过滤掉.threems-开头的class，不进行rem转换
     },
   },
+
+  chainWebpack: (config) => {
+    config.module
+      .rule("F2")
+      .test(/\.jsx$/)
+      .use("babel")
+      .loader("babel-loader")
+      .options({
+        plugins: [
+          [
+            "@babel/plugin-transform-react-jsx",
+            {
+              runtime: "automatic",
+              importSource: "@antv/f2",
+            },
+          ],
+        ],
+      })
+      .end();
+  },
 };
