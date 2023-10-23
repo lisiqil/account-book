@@ -31,6 +31,13 @@ module.exports = (appInfo) => {
       password: "Lsq!1995",
       database: "pocket_book",
     },
+    // client: {
+    //   host: "gz-cynosdbmysql-grp-ionpot75.sql.tencentcdb.com",
+    //   port: "24360",
+    //   user: "root",
+    //   password: "lisiqi!1995%^ZKZ9594",
+    //   database: "account_book",
+    // },
     // 是否加载到 app 上，默认开启
     app: true,
     // 是否加载到 agent 上，默认关闭

@@ -81,6 +81,7 @@ export default {
 <style lang="less" scoped>
 .wrapper {
   height: 100vh;
+  width: 100vw;
   background-image: url("@/assets/login_background.jpeg");
   background-size: 100% 100%;
 }

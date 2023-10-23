@@ -40,38 +40,6 @@ const handelChangeDate = (date) => {
 const regGetMonthBillData = async () => {
   try {
     const { data, code } = await getMonthBillData(selectedDate.value.getTime());
-    // const { data, code } = {
-    //   code: 200,
-    //   message: "请求成功",
-    //   data: {
-    //     expense_list: [
-    //       {
-    //         total_amount: 623,
-    //         type_name: "娱乐",
-    //         type_id: 3,
-    //       },
-    //       {
-    //         total_amount: 600,
-    //         type_name: "餐饮",
-    //         type_id: 1,
-    //       },
-    //       {
-    //         total_amount: 100,
-    //         type_name: "其他",
-    //         type_id: 5,
-    //       },
-    //     ],
-    //     income_list: [
-    //       {
-    //         total_amount: 1000,
-    //         type_name: "工资",
-    //         type_id: 6,
-    //       },
-    //     ],
-    //     total_expense: 1323,
-    //     total_income: 1000,
-    //   },
-    // };
     if (code === 200) Object.assign(billMonthData, data);
   } catch (error) {
   } finally {
@@ -175,12 +143,18 @@ onMounted(() => {
       <div v-if="curPayType === 'expense'" class="amount-base expense">
         <span>共支出</span>
         <span>￥{{ billMonthData.total_expense }}</span>
-        <span>共收入 ￥{{ billMonthData.total_income }}</span>
+        <span
+          >共收入 ￥{{ billMonthData.total_income }} 结余
+          {{ billMonthData.total_income - billMonthData.total_expense }}</span
+        >
       </div>
       <div v-else class="amount-base income">
         <span>共收入</span>
         <span>￥{{ billMonthData.total_income }}</span>
-        <span>共支出 ￥{{ billMonthData.total_expense }}</span>
+        <span
+          >共支出 ￥{{ billMonthData.total_expense }} 结余
+          {{ billMonthData.total_income - billMonthData.total_expense }}</span
+        >
       </div>
     </div>
     <div class="divider" />
@@ -261,6 +235,8 @@ onMounted(() => {
 
 <style lang="less" scoped>
 .wrapper {
+  height: 100vh;
+  width: 100vw;
   .header {
     display: flex;
     flex-direction: column;

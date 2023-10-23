@@ -150,12 +150,14 @@ const loginOut = () => {
 <style lang="less" scoped>
 .wrapper {
   display: grid;
-  height: 95vh;
+  height: calc(100vh - 50px);
+  width: 100vw;
   grid-template-rows: 1.5fr 3fr 1fr;
   align-items: stretch;
-  padding: 3%;
   font-size: 18px;
   background: url("@/assets/user.jpeg") repeat;
+  background-size: 100% 100%;
+
   .header {
     display: grid;
     grid-template-columns: repeat(3, 2fr);

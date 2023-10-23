@@ -1,6 +1,6 @@
 const BaseController = require("./BaseController");
 const default_avatar =
-  "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211208224344.png";
+  "https://nisqy-1256845982.cos.ap-nanjing.myqcloud.com/avatar/avatar01.jpg";
 
 class UserController extends BaseController {
   async login() {

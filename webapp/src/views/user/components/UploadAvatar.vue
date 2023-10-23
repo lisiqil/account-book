@@ -10,88 +10,76 @@ import { editUserInfo } from "@/api/user";
 const router = useRouter();
 const avatarList = [
   {
-    name: "dog1",
-    url: "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211208224002.jpeg",
+    name: "avatar01",
+    url: "https://nisqy-1256845982.cos.ap-nanjing.myqcloud.com/avatar/avatar01.jpg",
   },
   {
-    name: "dog2",
-    url: "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211208224029.jpeg",
+    name: "avatar02",
+    url: "https://nisqy-1256845982.cos.ap-nanjing.myqcloud.com/avatar/avatar02.jpg",
   },
   {
-    name: "dog3",
-    url: "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211208224039.jpeg",
+    name: "avatar03",
+    url: "https://nisqy-1256845982.cos.ap-nanjing.myqcloud.com/avatar/avatar03.jpg",
   },
   {
-    name: "dog4",
-    url: "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211208224054.jpeg",
+    name: "avatar04",
+    url: "https://nisqy-1256845982.cos.ap-nanjing.myqcloud.com/avatar/avatar04.jpg",
   },
   {
-    name: "dog5",
-    url: "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211208224102.jpeg",
+    name: "avatar05",
+    url: "https://nisqy-1256845982.cos.ap-nanjing.myqcloud.com/avatar/avatar05.jpg",
   },
   {
-    name: "dog6",
-    url: "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211208224107.jpeg",
+    name: "avatar06",
+    url: "https://nisqy-1256845982.cos.ap-nanjing.myqcloud.com/avatar/avatar06.jpg",
   },
   {
-    name: "dog7",
-    url: "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211208224113.jpeg",
+    name: "avatar07",
+    url: "https://nisqy-1256845982.cos.ap-nanjing.myqcloud.com/avatar/avatar07.jpg",
   },
   {
-    name: "dog8",
-    url: "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211208224148.jpeg",
+    name: "avatar08",
+    url: "https://nisqy-1256845982.cos.ap-nanjing.myqcloud.com/avatar/avatar08.jpg",
   },
   {
-    name: "dog9",
-    url: "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211208224153.jpeg",
+    name: "avatar09",
+    url: "https://nisqy-1256845982.cos.ap-nanjing.myqcloud.com/avatar/avatar09.jpg",
   },
   {
-    name: "dog10",
-    url: "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211208224157.jpeg",
+    name: "avatar10",
+    url: "https://nisqy-1256845982.cos.ap-nanjing.myqcloud.com/avatar/avatar10.jpg",
   },
   {
-    name: "dog11",
-    url: "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211208224344.png",
+    name: "avatar11",
+    url: "https://nisqy-1256845982.cos.ap-nanjing.myqcloud.com/avatar/avatar11.jpg",
   },
   {
-    name: "dog12",
-    url: "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211209010823.jpeg",
+    name: "avatar12",
+    url: "https://nisqy-1256845982.cos.ap-nanjing.myqcloud.com/avatar/avatar12.jpg",
   },
   {
-    name: "cat1",
-    url: "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211209231336.jpeg",
+    name: "avatar13",
+    url: "https://nisqy-1256845982.cos.ap-nanjing.myqcloud.com/avatar/avatar13.jpg",
   },
   {
-    name: "cat2",
-    url: "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211209231434.jpeg",
+    name: "avatar14",
+    url: "https://nisqy-1256845982.cos.ap-nanjing.myqcloud.com/avatar/avatar14.jpg",
   },
   {
-    name: "cat3",
-    url: "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211209231440.jpeg",
+    name: "avatar15",
+    url: "https://nisqy-1256845982.cos.ap-nanjing.myqcloud.com/avatar/avatar15.jpg",
   },
   {
-    name: "cat4",
-    url: "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211209231444.jpeg",
+    name: "avatar16",
+    url: "https://nisqy-1256845982.cos.ap-nanjing.myqcloud.com/avatar/avatar16.jpg",
   },
   {
-    name: "cat5",
-    url: "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211209231450.jpeg",
+    name: "avatar17",
+    url: "https://nisqy-1256845982.cos.ap-nanjing.myqcloud.com/avatar/avatar17.jpg",
   },
   {
-    name: "cat6",
-    url: "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211209231455.jpeg",
-  },
-  {
-    name: "cat7",
-    url: "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211209231459.jpeg",
-  },
-  {
-    name: "cat8",
-    url: "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211209231504.jpeg",
-  },
-  {
-    name: "cat9",
-    url: "https://cdn.jsdelivr.net/gh/Blackn-L/Picture/blog/20211209231508.jpeg",
+    name: "avatar18",
+    url: "https://nisqy-1256845982.cos.ap-nanjing.myqcloud.com/avatar/avatar18.jpg",
   },
 ];
 
@@ -168,9 +156,9 @@ const reqEditUserInfo = async () => {
 
 <style lang="less" scoped>
 .main {
-  height: 100%;
+  height: calc(100vh - 46px);
   background: url("@/assets/user.jpeg") no-repeat center center fixed;
-  background-size: cover;
+  background-size: 100% 100%;
   .items {
     height: 80%;
     padding: 10px;

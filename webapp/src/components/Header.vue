@@ -10,6 +10,7 @@ const onClickLeft = () => history.back();
 
 <template>
   <van-nav-bar
+    class="title-nav"
     :title="title"
     left-text="返回"
     left-arrow
@@ -17,4 +18,8 @@ const onClickLeft = () => history.back();
   />
 </template>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.title {
+  height: 46px;
+}
+</style>

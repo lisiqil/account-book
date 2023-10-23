@@ -5,8 +5,6 @@ import BillItem from "./components/BillItem.vue";
 import AddBill from "./components/AddBill.vue";
 import PopDate from "@/components/PopDate.vue";
 import dayjs from "dayjs";
-
-// 对接接口 查询账单列表
 import { getBillList } from "@/api/bill";
 
 const types = [
@@ -61,10 +59,6 @@ const types = [
     type: 2,
   },
 ];
-
-// const reqGetBillList = () => {
-//   console.log("reqGetBillList ====================== ");
-// };
 
 const refPopDate = ref();
 const totalExpenses = ref(0); // 总支出
@@ -129,77 +123,6 @@ const reqGetBillList = async () => {
   };
   try {
     const { code, data } = await getBillList(params);
-    // const { code, data } = {
-    //   code: 200,
-    //   message: "请求成功",
-    //   data: {
-    //     total_expense: 1323,
-    //     total_income: 1000,
-    //     total_page: 1,
-    //     list: [
-    //       {
-    //         date: "2023-10-08",
-    //         bills: [
-    //           {
-    //             id: 453,
-    //             pay_type: 1,
-    //             amount: "100",
-    //             date: "1696752153073",
-    //             type_id: 5,
-    //             type_name: "其他",
-    //             remark: "",
-    //           },
-    //           {
-    //             id: 452,
-    //             pay_type: 2,
-    //             amount: "1000",
-    //             date: "1696751562755",
-    //             type_id: 6,
-    //             type_name: "工资",
-    //             remark: "",
-    //           },
-    //         ],
-    //       },
-    //       {
-    //         date: "2023-10-07",
-    //         bills: [
-    //           {
-    //             id: 450,
-    //             pay_type: 1,
-    //             amount: "123",
-    //             date: "1696666139855",
-    //             type_id: 3,
-    //             type_name: "娱乐",
-    //             remark: "",
-    //           },
-    //           {
-    //             id: 455,
-    //             pay_type: 1,
-    //             amount: "500",
-    //             date: "1696608000000",
-    //             type_id: 3,
-    //             type_name: "娱乐",
-    //             remark: "",
-    //           },
-    //         ],
-    //       },
-    //       {
-    //         date: "2023-10-06",
-    //         bills: [
-    //           {
-    //             id: 451,
-    //             pay_type: 1,
-    //             amount: "600",
-    //             date: "1696521600000",
-    //             type_id: 1,
-    //             type_name: "餐饮",
-    //             remark: "",
-    //           },
-    //         ],
-    //       },
-    //     ],
-    //   },
-    // };
     if (code === 200) {
       billList.value = billList.value.concat(data.list);
       totalExpenses.value = data?.total_expense || 0;
@@ -232,89 +155,91 @@ const onLoad = async () => {
 </script>
 
 <template>
-  <!-- 主体 -->
-  <div class="bill-header">
-    <div class="total">
-      <div>
-        <span>总支出：</span>
-        <span class="total-count">{{ `￥${totalExpenses}` }}</span>
+  <div style="width: 100vw; height: 100vh">
+    <!-- 主体 -->
+    <div class="bill-header">
+      <div class="total">
+        <div>
+          <span>总支出：</span>
+          <span class="total-count">{{ `￥${totalExpenses}` }}</span>
+        </div>
+        <div style="margin-left: 15px">
+          <span>总收入：</span>
+          <span class="total-count">{{ `￥${totalIncome}` }}</span>
+        </div>
       </div>
-      <div style="margin-left: 15px">
-        <span>总收入：</span>
-        <span class="total-count">{{ `￥${totalIncome}` }}</span>
+
+      <div class="select-type-date">
+        <div>
+          <span @click="showType = true"
+            >{{ selectedType.name }} <van-icon name="arrow-down"
+          /></span>
+        </div>
+        <div style="margin-left: 10px">
+          <span
+            @click="
+              () => {
+                if (refPopDate) refPopDate.showDate = true;
+              }
+            "
+            >{{ dayjs(selectedDate).format("YYYY-MM") }}
+            <van-icon name="arrow-down"
+          /></span>
+        </div>
       </div>
     </div>
 
-    <div class="select-type-date">
-      <div>
-        <span @click="showType = true"
-          >{{ selectedType.name }} <van-icon name="arrow-down"
-        /></span>
+    <van-pull-refresh v-model="listRefreshing" @refresh="onRefresh">
+      <div class="bill-list">
+        <van-list
+          v-model:loading="listLoading"
+          :finished="listFinished"
+          finished-text="没有更多了"
+          @load="onLoad"
+        >
+          <BillItem
+            v-for="item in billList"
+            :item="item"
+            :key="item.date"
+            @delete="handleBillAdded"
+          />
+        </van-list>
       </div>
-      <div style="margin-left: 10px">
-        <span
-          @click="
-            () => {
-              if (refPopDate) refPopDate.showDate = true;
-            }
-          "
-          >{{ dayjs(selectedDate).format("YYYY-MM") }}
-          <van-icon name="arrow-down"
-        /></span>
-      </div>
+    </van-pull-refresh>
+
+    <!-- 添加账单按钮 -->
+    <div class="add-button">
+      <van-button round plain size="large" @click="showAddPop = true">
+        <van-icon name="records-o" size="32" color="#007fff" />
+      </van-button>
     </div>
+
+    <!-- 添加账单弹窗 -->
+    <van-popup
+      v-model:show="showAddPop"
+      @closed="addBillKey++"
+      position="bottom"
+      round
+      ><AddBill
+        @on-bill-added="handleBillAdded"
+        :key="addBillKey"
+        :types="types"
+        :defaultData="{}"
+        @close="showAddPop = false"
+    /></van-popup>
+
+    <!-- 账单类型弹窗 -->
+    <van-popup v-model:show="showType" position="bottom" round
+      ><BillTypes @handle-change-type="handleChangeType" :types="types"
+    /></van-popup>
+
+    <!-- 账单时间弹窗 -->
+    <PopDate
+      ref="refPopDate"
+      :selected-date="selectedDate"
+      @on-change="handelChangeDate"
+    />
   </div>
-
-  <van-pull-refresh v-model="listRefreshing" @refresh="onRefresh">
-    <div class="bill-list">
-      <van-list
-        v-model:loading="listLoading"
-        :finished="listFinished"
-        finished-text="没有更多了"
-        @load="onLoad"
-      >
-        <BillItem
-          v-for="item in billList"
-          :item="item"
-          :key="item.date"
-          @delete="handleBillAdded"
-        />
-      </van-list>
-    </div>
-  </van-pull-refresh>
-
-  <!-- 添加账单按钮 -->
-  <div class="add-button">
-    <van-button round plain size="large" @click="showAddPop = true">
-      <van-icon name="records-o" size="32" color="#007fff" />
-    </van-button>
-  </div>
-
-  <!-- 添加账单弹窗 -->
-  <van-popup
-    v-model:show="showAddPop"
-    @closed="addBillKey++"
-    position="bottom"
-    round
-    ><AddBill
-      @on-bill-added="handleBillAdded"
-      :key="addBillKey"
-      :types="types"
-      :defaultData="{}"
-      @close="showAddPop = false"
-  /></van-popup>
-
-  <!-- 账单类型弹窗 -->
-  <van-popup v-model:show="showType" position="bottom" round
-    ><BillTypes @handle-change-type="handleChangeType" :types="types"
-  /></van-popup>
-
-  <!-- 账单时间弹窗 -->
-  <PopDate
-    ref="refPopDate"
-    :selected-date="selectedDate"
-    @on-change="handelChangeDate"
-  />
 </template>
 
 <style lang="less" scoped>
