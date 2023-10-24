@@ -1,0 +1,55 @@
+# @name Baiduspider
+### 模拟百度爬虫
+GET http://localhost:7001/user/getUser
+Content-Type: application/json
+User-Agent: Baiduspider
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJyb290IiwiZXhwIjoxNjk4MjA0Mjk0LCJpYXQiOjE2OTgxMTc4OTR9.BVHlrlwGZOVFr8lwBCXl5Ner9q7ZwRux3F9WgyQjfcU
+
+{
+  "username": "root",
+  "password": "root1234",
+  "inviteCode": "woshiruciyingjun"
+}
+
+# @name login
+### 登录
+POST http://localhost:7001/user/login
+Content-Type: application/json
+
+{
+  "username": "root",
+  "password": "root1234"
+}
+
+# @name register
+### 注册
+POST http://localhost:7001/user/register
+Content-Type: application/json
+
+{
+  "username": "root",
+  "password": "root1234",
+  "inviteCode": "woshiruciyingjun"
+}
+
+# @name getUser
+### 获取用户信息
+GET http://localhost:7001/user/getUser
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJyb290IiwiZXhwIjoxNjk4MjA0Mjk0LCJpYXQiOjE2OTgxMTc4OTR9.BVHlrlwGZOVFr8lwBCXl5Ner9q7ZwRux3F9WgyQjfcU
+
+{
+  "username": "root",
+  "password": "root1234",
+  "inviteCode": "woshiruciyingjun"
+}
+
+# @name editUser
+### 获取用户信息
+PUT http://localhost:7001/user/editUser
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJyb290IiwiZXhwIjoxNjk4MjA0Mjk0LCJpYXQiOjE2OTgxMTc4OTR9.BVHlrlwGZOVFr8lwBCXl5Ner9q7ZwRux3F9WgyQjfcU
+
+{
+  "signature": "233"
+}

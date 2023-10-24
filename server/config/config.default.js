@@ -1,5 +1,4 @@
 /* eslint valid-jsdoc: "off" */
-
 "use strict";
 
 /**
@@ -16,32 +15,25 @@ module.exports = (appInfo) => {
   config.keys = appInfo.name + "_1697006684918_8846";
 
   // add your middleware config here
-  config.middleware = ["robot"];
+  config.middleware = ["csrfDefense", "robot", "rateLimit"];
 
   config.robot = {
     ua: [/Baiduspider/i],
   };
 
-  // 单个数据库信息配置
-  config.mysql = {
+  // 访问限频
+  config.rateLimit = {
+    limit: 50, // 限制每个 IP 在指定时间间隔内的访问次数
+    interval: 10, // 时间间隔（单位：秒）
+  };
+
+  config.redis = {
     client: {
-      host: "47.118.54.138",
-      port: "3306",
-      user: "root",
-      password: "Lsq!1995",
-      database: "pocket_book",
+      host: "9.134.34.64",
+      port: "6380",
+      password: "MdSyB*3468jSKs",
+      db: 0,
     },
-    // client: {
-    //   host: "gz-cynosdbmysql-grp-ionpot75.sql.tencentcdb.com",
-    //   port: "24360",
-    //   user: "root",
-    //   password: "lisiqi!1995%^ZKZ9594",
-    //   database: "account_book",
-    // },
-    // 是否加载到 app 上，默认开启
-    app: true,
-    // 是否加载到 agent 上，默认关闭
-    agent: false,
   };
 
   // token配置
@@ -53,9 +45,34 @@ module.exports = (appInfo) => {
   config.security = {
     csrf: {
       enable: false,
-      ignoreJSON: true,
+      ignore: (ctx) => {
+        // 不需要进行 CSRF 校验的路由
+        const ignorePaths = ["/user/login"];
+        if (ignorePaths.includes(ctx.path)) {
+          return true;
+        }
+        return false;
+      },
     },
     domainWhiteList: ["*"],
+  };
+
+  // 错误拦截
+  config.onerror = {
+    all(err, ctx) {
+      console.error("server error", err);
+      // const { app } = ctx;
+      try {
+        // 业务错误
+        const { code, data } = JSON.parse(err.message);
+        ctx.error(code, data);
+      } catch (err) {
+        // 服务错误
+        console.error(err);
+        ctx.body = "服务繁忙，请稍后再试";
+        ctx.status = 500;
+      }
+    },
   };
 
   // add your user config here

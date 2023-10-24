@@ -19,4 +19,9 @@ module.exports = (app) => {
   router.put("/bill/update", _jwt, controller.bill.update); // 更新账单
   router.delete("/bill/delete", _jwt, controller.bill.delete); // 删除账单
   router.get("/bill/date", _jwt, controller.bill.date); // 获取整月账单统计数据
+
+  // redis 操作测试接口
+  router.get("/redisSetV", controller.forward.redisSetV);
+  router.get("/redisGetV", controller.forward.redisGetV);
+  router.get("/redisDeleteV", controller.forward.redisDeleteV);
 };

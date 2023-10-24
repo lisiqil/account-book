@@ -2,11 +2,6 @@
 
 /** @type Egg.EggPlugin */
 module.exports = {
-  // had enabled by egg
-  // static: {
-  //   enable: true,
-  // }
-
   mysql: {
     enable: true,
     package: "egg-mysql",
@@ -14,5 +9,17 @@ module.exports = {
   jwt: {
     enable: true,
     package: "egg-jwt",
+  },
+  security: {
+    enable: true,
+    package: "egg-security",
+  },
+  onerror: {
+    enable: true,
+    package: "egg-onerror",
+  },
+  redis: {
+    enable: true,
+    package: "egg-redis",
   },
 };

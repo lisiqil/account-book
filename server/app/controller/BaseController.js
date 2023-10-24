@@ -1,4 +1,5 @@
 const Controller = require("egg").Controller;
+
 class BaseController extends Controller {
   success(data = null, message = "请求成功", code = 200) {
     this.ctx.body = {
@@ -13,6 +14,7 @@ class BaseController extends Controller {
       message,
     };
   }
+
   serviceError(message = "服务器内部错误", code = 500) {
     this.ctx.body = {
       code,
