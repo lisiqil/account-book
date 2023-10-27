@@ -11,6 +11,10 @@ module.exports = (appInfo) => {
    **/
   const config = (exports = {});
 
+  config.robot = {
+    ua: [/bot|spider|crawl|slurp|sohu-search|lycos|robozilla|Postman/i],
+  };
+
   // 单个数据库信息配置
   config.mysql = {
     client: {

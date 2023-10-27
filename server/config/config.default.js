@@ -23,15 +23,15 @@ module.exports = (appInfo) => {
 
   // 访问限频
   config.rateLimit = {
-    limit: 50, // 限制每个 IP 在指定时间间隔内的访问次数
+    limit: 5, // 限制每个 IP 在指定时间间隔内的访问次数
     interval: 10, // 时间间隔（单位：秒）
   };
 
   config.redis = {
     client: {
-      host: "9.134.34.64",
-      port: "6380",
-      password: "MdSyB*3468jSKs",
+      host: "47.118.54.138",
+      port: "6379",
+      password: "root123",
       db: 0,
     },
   };
