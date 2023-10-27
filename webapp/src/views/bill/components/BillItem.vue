@@ -78,10 +78,10 @@ const clickDelete = async (id) => {
               >{{ bill.type_name }}
             </van-tag>
           </span>
-          <span :style="{ color: 'green' }" v-if="bill.pay_type === 1"
+          <span :style="{ color: 'red' }" v-if="bill.pay_type === 1"
             >- {{ bill.amount }}
           </span>
-          <span :style="{ color: 'red' }" v-else>+ {{ bill.amount }}</span>
+          <span :style="{ color: 'green' }" v-else>+ {{ bill.amount }}</span>
         </div>
         <div class="item-footer">
           <span>

@@ -210,7 +210,7 @@ const onLoad = async () => {
     <!-- 添加账单按钮 -->
     <div class="add-button">
       <van-button round plain size="large" @click="showAddPop = true">
-        <van-icon name="records-o" size="32" color="#007fff" />
+        <van-icon name="balance-list-o" size="32" color="#007fff" />
       </van-button>
     </div>
 
@@ -278,10 +278,10 @@ const onLoad = async () => {
   width: 50px;
   height: 50px;
   position: fixed;
-  bottom: 90px;
-  right: 30px;
+  bottom: 80px;
+  right: 40px;
   z-index: 999;
   border-radius: 50%;
-  box-shadow: 0 0 10px 0 rgb(0 0 0 / 20%);
+  box-shadow: 0 0 12px 0 rgb(0 0 0 / 30%);
 }
 </style>
