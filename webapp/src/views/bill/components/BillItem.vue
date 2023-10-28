@@ -85,11 +85,10 @@ const clickDelete = async (id) => {
         </div>
         <div class="item-footer">
           <span>
-            <!-- {{ dayjs(Number(bill.date)).format("HH:mm") }} -->
             {{ dayjs(Number(bill.date)).format("HH:mm") }}
           </span>
           <span v-if="bill.remark">
-            {{ " | " + bill.remark + bill.id }}
+            {{ " | " + bill.remark }}
           </span>
         </div>
       </van-cell>

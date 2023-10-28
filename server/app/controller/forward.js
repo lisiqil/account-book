@@ -15,10 +15,12 @@ class ForwardController extends BaseController {
     const { key } = ctx.request.body;
     const res = await app.redis.get(key);
 
-    const client = app.config.mysql.client;
+    const mysqlClient = app.config.mysql.client;
+    const redisClient = app.config.redis.client;
 
-    console.log("current time ================== ", new Date());
-    console.log("db-myslq ================== ", client.host, client.database);
+    console.log("current time ======================= ", new Date());
+    console.log("db-mysql ======================= ", mysqlClient);
+    console.log("db-redis ======================= ", redisClient);
     /**
      * npm run dev 命令启动， app.config.currConfig: "local config"
      * npm run start 命令启动， app.config.currConfig: "prod config"
@@ -26,8 +28,6 @@ class ForwardController extends BaseController {
     ctx.body = {
       redisres: res,
       currConfig: app.config.currConfig,
-      clientHost: client.host,
-      clientDatabase: client.database,
     };
   }
   // 删

@@ -1,5 +1,8 @@
 /* eslint valid-jsdoc: "off" */
 "use strict";
+const {
+  dev: { dbMysql, dbRedis },
+} = require("../config.json");
 
 /**
  * @param {Egg.EggAppInfo} appInfo app info
@@ -13,22 +16,18 @@ module.exports = (appInfo) => {
 
   // 单个数据库信息配置
   config.mysql = {
-    client: {
-      host: "47.118.54.138",
-      port: "3306",
-      user: "root",
-      password: "Lsq!1995",
-      database: "pocket_book",
-    },
-    // 是否加载到 app 上，默认开启
-    app: true,
-    // 是否加载到 agent 上，默认关闭
-    agent: false,
+    client: dbMysql,
+    app: true, // 是否加载到 app
+    agent: false, // 是否加载到 agent
   };
 
+  config.redis = {
+    client: dbRedis,
+  };
+
+  // 开发环境不开启 csrf-token 校验
   config.security = {
     csrf: {
-      // enable 开发 false, 不校验csrf， 生产 true
       enable: false,
     },
   };

@@ -5,7 +5,7 @@
  */
 module.exports = (app) => {
   const { router, controller, middleware } = app;
-  const _jwt = middleware.jwtErr(app.config.jwt.secret); // 传入加密字符串
+  const _jwt = middleware.jwtVerify(app.config.jwt.secret); // 传入加密字符串
 
   router.post("/user/login", controller.user.login); // 登录
   router.post("/user/register", controller.user.register); // 注册

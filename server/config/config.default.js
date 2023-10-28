@@ -1,6 +1,6 @@
 /* eslint valid-jsdoc: "off" */
 "use strict";
-
+const { secret, inviteCode } = require("../config.json");
 /**
  * @param {Egg.EggAppInfo} appInfo app info
  */
@@ -23,22 +23,13 @@ module.exports = (appInfo) => {
 
   // 访问限频
   config.rateLimit = {
-    limit: 5, // 限制每个 IP 在指定时间间隔内的访问次数
-    interval: 10, // 时间间隔（单位：秒）
-  };
-
-  config.redis = {
-    client: {
-      host: "47.118.54.138",
-      port: "6379",
-      password: "root123",
-      db: 0,
-    },
+    limit: 15, // 限制每个 IP 在指定时间间隔内的访问次数
+    interval: 30, // 时间间隔（单位：秒）
   };
 
   // token配置
   config.jwt = {
-    secret: "nisqyPocketBook20231012",
+    secret: secret,
   };
 
   // 设置跨域白名单，允许全部
@@ -78,7 +69,7 @@ module.exports = (appInfo) => {
   // add your user config here
   const userConfig = {
     myAppName: "egg server",
-    inviteCode: "woshiruciyingjun",
+    inviteCode: inviteCode,
   };
 
   return {
